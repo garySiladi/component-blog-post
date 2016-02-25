@@ -1,0 +1,24 @@
+
+.blog-post {
+  font-family: var(--fontfamily-sans);
+}
+
+html {
+  line-height: var(--text-line-height-sans-on-step-0);
+  font-size: 18px;
+}
+
+body {
+  background: white;
+}
+
+@media screen and (min-width: 800px) {
+  html {
+    font-size: 20px;
+  }
+}
+@import './index.css';
+
+.component-panel {
+  overflow: hidden;
+}
