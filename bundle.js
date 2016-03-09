@@ -963,7 +963,7 @@ module.exports = function(it){
   return toString.call(it).slice(8, -1);
 };
 },{}],38:[function(require,module,exports){
-var core = module.exports = {version: '2.1.3'};
+var core = module.exports = {version: '2.1.4'};
 if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 },{}],39:[function(require,module,exports){
 // optional / simple context binding
@@ -1302,18 +1302,18 @@ var getKeys  = require('./_object-keys')
   , gOPS     = require('./_object-gops')
   , pIE      = require('./_object-pie')
   , toObject = require('./_to-object')
-  , IObject  = require('./_iobject');
+  , IObject  = require('./_iobject')
+  , $assign  = Object.assign;
 
 // should work with symbols and should have deterministic property order (V8 bug)
-module.exports = require('./_fails')(function(){
-  var a = Object.assign
-    , A = {}
+module.exports = !$assign || require('./_fails')(function(){
+  var A = {}
     , B = {}
     , S = Symbol()
     , K = 'abcdefghijklmnopqrst';
   A[S] = 7;
   K.split('').forEach(function(k){ B[k] = k; });
-  return a({}, A)[S] != 7 || Object.keys(a({}, B)).join('') != K;
+  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
 }) ? function assign(target, source){ // eslint-disable-line no-unused-vars
   var T     = toObject(target)
     , aLen  = arguments.length
@@ -1327,9 +1327,8 @@ module.exports = require('./_fails')(function(){
       , j      = 0
       , key;
     while(length > j)if(isEnum.call(S, key = keys[j++]))T[key] = S[key];
-  }
-  return T;
-} : Object.assign;
+  } return T;
+} : $assign;
 },{"./_fails":46,"./_iobject":52,"./_object-gops":69,"./_object-keys":72,"./_object-pie":73,"./_to-object":85}],63:[function(require,module,exports){
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject    = require('./_an-object')
@@ -1740,7 +1739,8 @@ var global         = require('./_global')
   , SymbolRegistry = shared('symbol-registry')
   , AllSymbols     = shared('symbols')
   , ObjectProto    = Object.prototype
-  , USE_NATIVE     = typeof $Symbol == 'function';
+  , USE_NATIVE     = typeof $Symbol == 'function'
+  , QObject        = global.QObject;
 
 // fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
 var setSymbolDesc = DESCRIPTORS && $fails(function(){
@@ -1892,7 +1892,8 @@ for(var symbols = (
   if(!(key in Wrapper))dP(Wrapper, key, {value: USE_NATIVE ? sym : wrap(sym)});
 };
 
-setter = true;
+// Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
+if(!QObject || !QObject.prototype || !QObject.prototype.findChild)setter = true;
 
 $export($export.S + $export.F * !USE_NATIVE, 'Symbol', {
   // 19.4.2.1 Symbol.for(key)
@@ -3189,11 +3190,18 @@ var cof = require('./_cof')
   // ES3 wrong here
   , ARG = cof(function(){ return arguments; }()) == 'Arguments';
 
+// fallback for IE11 Script Access Denied error
+var tryGet = function(it, key){
+  try {
+    return it[key];
+  } catch(e){ /* empty */ }
+};
+
 module.exports = function(it){
   var O, T, B;
   return it === undefined ? 'Undefined' : it === null ? 'Null'
     // @@toStringTag case
-    : typeof (T = (O = Object(it))[TAG]) == 'string' ? T
+    : typeof (T = tryGet(O = Object(it), TAG)) == 'string' ? T
     // builtinTag case
     : ARG ? cof(O)
     // ES3 arguments fallback
