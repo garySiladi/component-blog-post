@@ -107,6 +107,8 @@ body {
  * Css grid variables
  */
 
+/* stylelint-disable number-max-precision */
+
 .balloon {
   display: inline;
   position: relative;
