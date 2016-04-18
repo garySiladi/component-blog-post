@@ -372,7 +372,6 @@ body {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  width: 100%;
   margin-bottom: 1em;
   padding: 1em;
   -webkit-box-align: center;
