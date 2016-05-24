@@ -410,17 +410,15 @@ body {
   line-height: 1.35;
 }
 
-/* stylelint-disable selector-no-type */
-
-.blog-post__text figure,
 .blog-post__image {
   overflow: hidden;
+  width: 100%;
+  height: auto;
   margin: 0;
   margin-bottom: 1.45em;
   padding: 0;  /* Resetting default browser styles */
 }
 
-.blog-post__text figure > img,
 .blog-post__image-block {
   display: block;  /* Because if it was inline it would have a line-height */
   width: 100%;
@@ -428,7 +426,6 @@ body {
   border: medium none;
 }
 
-.blog-post__text figure > figcaption,
 .blog-post__image-caption {
   margin-top: 0.35em;
   color: #7a7a7a;
@@ -437,8 +434,6 @@ body {
   letter-spacing: 0.015em;
   line-height: 1.4;
 }
-
-/* stylelint-enable selector-no-type */
 
 .blog-post__flytitle {
   margin: 0 0 0.1em 0;
@@ -542,16 +537,10 @@ body {
 }
 
 @media screen and (min-width: 593px) {
-  .blog-post__text figure > img {
+  .blog-post__image-block {
     float: left;
     margin-right: 1em;
   }
-}
-
-.blog-post__text figure {
-  width: 100%;
-  height: auto;
-  margin: 0;  /* Reset them styles */
 }
 
 .blog-post__text blockquote {
