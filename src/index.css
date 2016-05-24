@@ -12,17 +12,15 @@
   line-height: var(--text-line-height-sans-on-step-0);
 }
 
-/* stylelint-disable selector-no-type */
-
-.blog-post__text figure,
 .blog-post__image {
   overflow: hidden;
+  width: 100%;
+  height: auto;
   margin: 0;
   margin-bottom: var(--blog-post-image-spacing, var(--grid-spacing-sheep));
   padding: 0;  /* Resetting default browser styles */
 }
 
-.blog-post__text figure > img,
 .blog-post__image-block {
   display: block;  /* Because if it was inline it would have a line-height */
   width: 100%;
@@ -30,7 +28,6 @@
   border: medium none;
 }
 
-.blog-post__text figure > figcaption,
 .blog-post__image-caption {
   margin-top: var(--grid-spacing-hedgehog);
   color: var(--blog-post-color-image-caption, var(--color-moscow));
@@ -39,8 +36,6 @@
   letter-spacing: var(--text-letter-spacing-sans-light-on-step--2);
   line-height: var(--text-line-height-sans-light-on-step--2);
 }
-
-/* stylelint-enable selector-no-type */
 
 .blog-post__flytitle {
   margin: 0 0 var(--blog-post-flytitle-spacing, var(--grid-spacing-mouse)) 0;
@@ -142,16 +137,10 @@
 }
 
 @media screen and (min-width: 593px) {
-  .blog-post__text figure > img {
+  .blog-post__image-block {
     float: left;
     margin-right: 1em;
   }
-}
-
-.blog-post__text figure {
-  width: 100%;
-  height: auto;
-  margin: 0;  /* Reset them styles */
 }
 
 .blog-post__text blockquote {
