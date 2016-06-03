@@ -1,3 +1,6 @@
+/* stylelint-disable value-keyword-case */
+/* unable to change font names */
+
 :root {
   --comments-height: 40px;
   --comments-border-top: 1px solid var(--color-berlin);
