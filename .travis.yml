@@ -6,7 +6,9 @@ cache:
 node_js:
   - '4'
   - stable
-after_success: 'travis-after-all && npm run semantic-release && npm run pages -- --repo https://${GH_TOKEN}@github.com/economist-components/component-blog-post.git'
+after_success: >-
+  travis-after-all && npm run semantic-release && npm run pages -- --repo
+  https://${GH_TOKEN}@github.com/economist-components/component-blog-post.git
 before_install:
   - npm i -g npm
 script:

@@ -101,6 +101,7 @@
 }
 
 /* stylelint-disable selector-no-type */
+/* unknown class */
 
 .blog-post__section-link, .blog-post__text a {
   transition: color 101ms ease;
@@ -123,6 +124,7 @@
 }
 
 /* stylelint-disable selector-no-type */
+/* unknown class */
 
 .blog-post__text a {
   color: var(--blog-post-color-link-underline, inherit);
