@@ -9,6 +9,7 @@ import Rubric from './parts/rubric';
 import ShareBar from './parts/blog-post-sharebar';
 import Text from './parts/text';
 import Title from './parts/title';
+import Sticky from '@economist/component-stickyfill';
 
 import classnames from 'classnames';
 import urlJoin from 'url-join';
@@ -198,12 +199,11 @@ export default class BlogPost extends React.Component {
     asideableContent.push(<ShareBar key="sharebar" />);
     if (asideableContent.length) {
       content.push((
-        <div
-          className="blog-post__asideable-content blog-post__asideable-content--meta"
-          key="asideable-content"
-        >
-          {asideableContent}
-        </div>
+        <Sticky tag="div" className="blog-post__asideable-wrapper" key="asideable-content">
+            <div className="blog-post__asideable-content blog-post__asideable-content--meta">
+              {asideableContent}
+            </div>
+        </Sticky>
       ));
     }
     if (this.props.author) {
