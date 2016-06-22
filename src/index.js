@@ -1,3 +1,4 @@
+/* global window: false */
 import ReactDOM from 'react-dom';
 import Author from './parts/author';
 import BlogPostImage from './parts/blog-post-image';
@@ -114,7 +115,6 @@ export default class BlogPost extends React.Component {
   }
 
   setEventListener() {
-    /* global window: false */
     if (this.isBrowserEnvironment()) {
       window.addEventListener('resize', this.checkAsideableContainerHeightHandler);
       window.addEventListener('scroll', this.checkAsideableContainerHeightHandler);
@@ -123,7 +123,6 @@ export default class BlogPost extends React.Component {
   }
 
   removeEventListener() {
-    /* global window: false */
     if (this.isBrowserEnvironment()) {
       window.removeEventListener('resize', this.checkAsideableContainerHeightHandler);
       window.removeEventListener('scroll', this.checkAsideableContainerHeightHandler);
