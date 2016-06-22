@@ -182,10 +182,6 @@
 
 /* stylelint-enable selector-no-type */
 
-.blog-post__asideable-container {
-  position: relative;
-}
-
 .blog-post__asideable-content {
   display: flex;
   padding: var(--grid-spacing-hedgehog) 0 var(--grid-spacing-hedgehog) 0;

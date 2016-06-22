@@ -11,6 +11,7 @@ import ShareBar from './parts/blog-post-sharebar';
 import Text from './parts/text';
 import Title from './parts/title';
 import Sticky from '@economist/component-stickyfill';
+import { throttle } from 'lodash';
 
 import classnames from 'classnames';
 import urlJoin from 'url-join';
@@ -99,7 +100,9 @@ export default class BlogPost extends React.Component {
 
   constructor(...args) {
     super(...args);
-    this.setAsideableContainerHeight = this.setAsideableContainerHeight.bind(this);
+    const throttleInterval = 500;
+    this.checkAsideableContainerHeightHandler = throttle(this.checkAsideableContainerHeight.bind(this),
+      throttleInterval);
   }
 
   componentDidMount() {
@@ -108,6 +111,23 @@ export default class BlogPost extends React.Component {
 
   componentWillUnmount() {
     this.removeEventListener();
+  }
+
+  setEventListener() {
+    /* global window: false */
+    if (this.isBrowserEnvironment()) {
+      window.addEventListener('resize', this.checkAsideableContainerHeightHandler);
+      window.addEventListener('scroll', this.checkAsideableContainerHeightHandler);
+      this.checkAsideableContainerHeight();
+    }
+  }
+
+  removeEventListener() {
+    /* global window: false */
+    if (this.isBrowserEnvironment()) {
+      window.removeEventListener('resize', this.checkAsideableContainerHeightHandler);
+      window.removeEventListener('scroll', this.checkAsideableContainerHeightHandler);
+    }
   }
 
   addDateTime(sectionDateAuthor, props) {
@@ -195,19 +215,8 @@ export default class BlogPost extends React.Component {
     return typeof window !== 'undefined' && typeof window.document !== 'undefined';
   }
 
-  setEventListener() {
-    /* global window: false */
-    if (this.isBrowserEnvironment()) {
-      window.addEventListener('resize', this.setAsideableContainerHeight);
-      this.setAsideableContainerHeight();
-    }
-  }
-
-  removeEventListener() {
-    /* global window: false */
-    if (this.isBrowserEnvironment()) {
-      window.removeEventListener('resize', this.setAsideableContainerHeight);
-    }
+  getDOMElementFromRef(ref) {
+    return ReactDOM.findDOMNode(ref);
   }
 
   isWithinBoundaries(element, container) {
@@ -225,14 +234,23 @@ export default class BlogPost extends React.Component {
     return false;
   }
 
-  setAsideableContainerHeight() {
-    const asideContainerEl = ReactDOM.findDOMNode(this.refs.asideable);
-    const articleContainerEl = ReactDOM.findDOMNode(this.refs.article);
-    if (this.isWithinBoundaries(asideContainerEl, articleContainerEl)) {
-      asideContainerEl.style.height = '';
-    } else {
-      asideContainerEl.style.height = `${ articleContainerEl.offsetHeight - asideContainerEl.offsetTop }px`;
+  checkAsideableContainerHeight() {
+    const asideContainerEl = this.getDOMElementFromRef(this.refs.asideable);
+    const articleContainerEl = this.getDOMElementFromRef(this.refs.article);
+    if (!articleContainerEl.offsetHeight) {
+      return;
     }
+
+    if (this.isWithinBoundaries(asideContainerEl, articleContainerEl)) {
+      this.setAsideableContainerHeight('auto');
+    } else {
+      this.setAsideableContainerHeight(`${ articleContainerEl.offsetHeight - asideContainerEl.offsetTop }px`);
+    }
+  }
+
+  setAsideableContainerHeight(heightInPx) {
+    const asideContainerEl = this.getDOMElementFromRef(this.refs.asideable);
+    asideContainerEl.style.height = heightInPx || 'auto';
   }
 
   render() {
