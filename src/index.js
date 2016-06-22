@@ -1,3 +1,4 @@
+import ReactDOM from 'react-dom';
 import Author from './parts/author';
 import BlogPostImage from './parts/blog-post-image';
 import BlogPostSection from './parts/blog-post-section';
@@ -89,11 +90,24 @@ export default class BlogPost extends React.Component {
         let minutes = date.getMinutes() < tenMinutes ? '0' : '';
         minutes += date.getMinutes();
         return [ `${ shortMonthList[date.getMonth()] }`,
-                 `${ addPostFix(date.getDate()) }`,
-                 `${ date.getFullYear() },`,
-                 `${ date.getHours() }:${ minutes }` ].join(' ');
+          `${ addPostFix(date.getDate()) }`,
+          `${ date.getFullYear() },`,
+          `${ date.getHours() }:${ minutes }` ].join(' ');
       },
     };
+  }
+
+  constructor(...args) {
+    super(...args);
+    this.setAsideableContainerHeight = this.setAsideableContainerHeight.bind(this);
+  }
+
+  componentDidMount() {
+    this.setEventListener();
+  }
+
+  componentWillUnmount() {
+    this.removeEventListener();
   }
 
   addDateTime(sectionDateAuthor, props) {
@@ -177,6 +191,50 @@ export default class BlogPost extends React.Component {
     return sectionDateAuthor;
   }
 
+  isBrowserEnvironment() {
+    return typeof window !== 'undefined' && typeof window.document !== 'undefined';
+  }
+
+  setEventListener() {
+    /* global window: false */
+    if (this.isBrowserEnvironment()) {
+      window.addEventListener('resize', this.setAsideableContainerHeight);
+      this.setAsideableContainerHeight();
+    }
+  }
+
+  removeEventListener() {
+    /* global window: false */
+    if (this.isBrowserEnvironment()) {
+      window.removeEventListener('resize', this.setAsideableContainerHeight);
+    }
+  }
+
+  isWithinBoundaries(element, container) {
+    if (!element || typeof element.getBoundingClientRect !== 'function' ||
+      !container || typeof container.getBoundingClientRect !== 'function') {
+      return true;
+    }
+    const containerRect = container.getBoundingClientRect();
+    const elementRect = element.getBoundingClientRect();
+    // this rule applies only when the element gets moved out of the container horizontal space
+    if (elementRect.left >= containerRect.left &&
+        elementRect.right <= containerRect.right) {
+      return true;
+    }
+    return false;
+  }
+
+  setAsideableContainerHeight() {
+    const asideContainerEl = ReactDOM.findDOMNode(this.refs.asideable);
+    const articleContainerEl = ReactDOM.findDOMNode(this.refs.article);
+    if (this.isWithinBoundaries(asideContainerEl, articleContainerEl)) {
+      asideContainerEl.style.height = '';
+    } else {
+      asideContainerEl.style.height = `${ articleContainerEl.offsetHeight - asideContainerEl.offsetTop }px`;
+    }
+  }
+
   render() {
     let content = [];
     const asideableContent = [];
@@ -199,10 +257,12 @@ export default class BlogPost extends React.Component {
     asideableContent.push(<ShareBar key="sharebar" />);
     if (asideableContent.length) {
       content.push((
-        <Sticky tag="div" className="blog-post__asideable-wrapper" key="asideable-content">
-            <div className="blog-post__asideable-content blog-post__asideable-content--meta">
-              {asideableContent}
-            </div>
+        <Sticky tag="div" className="blog-post__asideable-wrapper" key="asideable-content"
+          ref="asideable"
+        >
+          <div className="blog-post__asideable-content blog-post__asideable-content--meta">
+            {asideableContent}
+          </div>
         </Sticky>
       ));
     }
@@ -231,6 +291,7 @@ export default class BlogPost extends React.Component {
         itemProp={this.props.itemProp}
         itemType={this.props.itemType}
         role="article"
+        ref="article"
       >
         <FlyTitle title={this.props.flyTitle} key="blog-post__flytitle" />
         <Title title={this.props.title} key="blog-post__title" />
