@@ -494,6 +494,9 @@ body {
   margin-top: 0.2em;
 }
 /* stylelint-enable selector-no-type */
+.blog-post__inner {
+  position: relative;
+}
 .blog-post__asideable-content {
   display: -webkit-box;
   display: -ms-flexbox;
