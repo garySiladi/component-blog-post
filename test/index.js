@@ -4,11 +4,8 @@ import MobileDetect from 'mobile-detect';
 import React from 'react';
 import chai from 'chai';
 import chaiEnzyme from 'chai-enzyme';
-import sinon from 'sinon';
-import sinonChai from 'sinon-chai';
 import { mount } from 'enzyme';
-import Sticky from '@economist/component-stickyfill';
-chai.use(chaiEnzyme()).use(sinonChai).should();
+chai.use(chaiEnzyme()).should();
 
 function mountComponent(requiredProps) {
   return function (additionalProps) {
@@ -218,90 +215,6 @@ describe('BlogPost', () => {
         balloonContentNode.should.have.exactly(1).descendants('.share__icon--print');
         balloonContentNode.find('.share__icon--print').find('a')
           .should.have.attr('href', 'javascript:if(window.print)window.print()'); // eslint-disable-line no-script-url
-      });
-
-      it('should monitor sharebar element when window resizes/scrolls', () => {
-        sinon.spy(window, 'addEventListener');
-        const post = mountComponentWithProps();
-        const instance = post.component.getInstance();
-        window.addEventListener
-          .should.have.been.calledWith('resize', instance.checkAsideableContainerHeightHandler);
-        window.addEventListener
-          .should.have.been.calledWith('scroll', instance.checkAsideableContainerHeightHandler);
-
-        // avoid chai complaining about global leaks
-        window.addEventListener.restore();
-        Reflect.deleteProperty(window, 'addEventListener');
-      });
-
-      it('should remove the listeners when unmounted', () => {
-        sinon.spy(window, 'removeEventListener');
-        const post = mountComponentWithProps();
-        const instance = post.component.getInstance();
-        post.unmount();
-        window.removeEventListener
-          .should.have.been.calledWith('resize', instance.checkAsideableContainerHeightHandler);
-        window.removeEventListener
-          .should.have.been.calledWith('scroll', instance.checkAsideableContainerHeightHandler);
-
-        window.removeEventListener.restore();
-        // avoid chai complaining about global leaks
-        Reflect.deleteProperty(window, 'removeEventListener');
-      });
-
-      it('should immediately check for sharebar position when mounted', () => {
-        const checkSpy = sinon.spy(BlogPost.prototype, 'checkAsideableContainerHeight');
-        const post = mountComponentWithProps();
-        checkSpy.should.have.callCount(1);
-        BlogPost.prototype.checkAsideableContainerHeight.restore();
-        post.unmount();
-      });
-
-      it('should set its height to match the article when pulled out of the article area', () => {
-        const boundaryCheckSpy = sinon.spy(BlogPost.prototype, 'isWithinBoundaries');
-        const asideHeightSpy = sinon.spy(BlogPost.prototype, 'setAsideableContainerHeight');
-        sinon.stub(BlogPost.prototype, 'getDOMElementFromRef', (ref) => {
-          const isSticky = Sticky.prototype.isPrototypeOf(ref);
-          return {
-            style: {},
-            offsetTop: (isSticky ? 200 : 0),
-            offsetHeight: (isSticky ? 0 : 1000),
-            /* eslint-disable arrow-body-style */
-            getBoundingClientRect: () => {
-              return Sticky.prototype.isPrototypeOf(ref) ?
-                { left: -87, right: -2 } :
-                { left: 0, right: 100 };
-            },
-            /* eslint-enable arrow-body-style */
-          };
-        });
-
-        const post = mountComponentWithProps();
-        boundaryCheckSpy.should.have.callCount(1);
-        asideHeightSpy.should.have.been.calledWith('800px');
-        BlogPost.prototype.getDOMElementFromRef.restore();
-        BlogPost.prototype.setAsideableContainerHeight.restore();
-        BlogPost.prototype.isWithinBoundaries.restore();
-        post.unmount();
-      });
-
-      it('should reset its height to nil when within the article horizontal boundaries', () => {
-        const asideHeightSpy = sinon.spy(BlogPost.prototype, 'setAsideableContainerHeight');
-        /* eslint-disable arrow-body-style */
-        sinon.stub(BlogPost.prototype, 'getDOMElementFromRef', () => {
-          return {
-            style: {},
-            offsetTop: 0,
-            offsetHeight: 1000,
-            getBoundingClientRect: () => ({ left: 0, right: 100 }),
-          };
-        });
-        /* eslint-enable arrow-body-style */
-        const post = mountComponentWithProps();
-        asideHeightSpy.should.have.been.calledWith('auto');
-        BlogPost.prototype.getDOMElementFromRef.restore();
-        BlogPost.prototype.setAsideableContainerHeight.restore();
-        post.unmount();
       });
     });
 

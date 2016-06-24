@@ -1,5 +1,3 @@
-/* global window: false */
-import ReactDOM from 'react-dom';
 import Author from './parts/author';
 import BlogPostImage from './parts/blog-post-image';
 import BlogPostSection from './parts/blog-post-section';
@@ -12,7 +10,6 @@ import ShareBar from './parts/blog-post-sharebar';
 import Text from './parts/text';
 import Title from './parts/title';
 import Sticky from '@economist/component-stickyfill';
-import { throttle } from 'lodash';
 
 import classnames from 'classnames';
 import urlJoin from 'url-join';
@@ -99,36 +96,6 @@ export default class BlogPost extends React.Component {
     };
   }
 
-  constructor(...args) {
-    super(...args);
-    const throttleInterval = 500;
-    this.checkAsideableContainerHeightHandler = throttle(this.checkAsideableContainerHeight.bind(this),
-      throttleInterval);
-  }
-
-  componentDidMount() {
-    this.setEventListener();
-  }
-
-  componentWillUnmount() {
-    this.removeEventListener();
-  }
-
-  setEventListener() {
-    if (this.isBrowserEnvironment()) {
-      window.addEventListener('resize', this.checkAsideableContainerHeightHandler);
-      window.addEventListener('scroll', this.checkAsideableContainerHeightHandler);
-      this.checkAsideableContainerHeight();
-    }
-  }
-
-  removeEventListener() {
-    if (this.isBrowserEnvironment()) {
-      window.removeEventListener('resize', this.checkAsideableContainerHeightHandler);
-      window.removeEventListener('scroll', this.checkAsideableContainerHeightHandler);
-    }
-  }
-
   addDateTime(sectionDateAuthor, props) {
     const { dateTime, dateFormat, dateString, timestampISO } = props;
     let result = sectionDateAuthor.slice();
@@ -210,50 +177,11 @@ export default class BlogPost extends React.Component {
     return sectionDateAuthor;
   }
 
-  isBrowserEnvironment() {
-    return typeof window !== 'undefined' && typeof window.document !== 'undefined';
-  }
-
-  getDOMElementFromRef(ref) {
-    return ReactDOM.findDOMNode(ref);
-  }
-
-  isWithinBoundaries(element, container) {
-    if (!element || typeof element.getBoundingClientRect !== 'function' ||
-      !container || typeof container.getBoundingClientRect !== 'function') {
-      return true;
-    }
-    const containerRect = container.getBoundingClientRect();
-    const elementRect = element.getBoundingClientRect();
-    // this rule applies only when the element gets moved out of the container horizontal space
-    if (elementRect.left >= containerRect.left &&
-        elementRect.right <= containerRect.right) {
-      return true;
-    }
-    return false;
-  }
-
-  checkAsideableContainerHeight() {
-    const asideContainerEl = this.getDOMElementFromRef(this.refs.asideable);
-    const articleContainerEl = this.getDOMElementFromRef(this.refs.article);
-    if (!articleContainerEl.offsetHeight) {
-      return;
-    }
-
-    if (this.isWithinBoundaries(asideContainerEl, articleContainerEl)) {
-      this.setAsideableContainerHeight('auto');
-    } else {
-      this.setAsideableContainerHeight(`${ articleContainerEl.offsetHeight - asideContainerEl.offsetTop }px`);
-    }
-  }
-
-  setAsideableContainerHeight(heightInPx) {
-    const asideContainerEl = this.getDOMElementFromRef(this.refs.asideable);
-    asideContainerEl.style.height = heightInPx || 'auto';
-  }
-
   render() {
     let content = [];
+    // aside and text content are wrapped together into a component.
+    // that makes it easier to move the aside around relatively to its containter
+    let wrappedInnerContent = [];
     const asideableContent = [];
     let sectionDateAuthor = [];
     content = this.addRubric(content, this.props.rubric);
@@ -273,7 +201,7 @@ export default class BlogPost extends React.Component {
     }
     asideableContent.push(<ShareBar key="sharebar" />);
     if (asideableContent.length) {
-      content.push((
+      wrappedInnerContent.push((
         <Sticky tag="div" className="blog-post__asideable-wrapper" key="asideable-content"
           ref="asideable"
         >
@@ -284,10 +212,11 @@ export default class BlogPost extends React.Component {
       ));
     }
     if (this.props.author) {
-      content.push(<Author key="blog-post__author" author={this.props.author} />);
+      wrappedInnerContent.push(<Author key="blog-post__author" author={this.props.author} />);
     }
-    content.push(<Text text={this.props.text} key="blog-post__text" />);
-    content.push(this.props.afterText);
+    wrappedInnerContent.push(<Text text={this.props.text} key="blog-post__text" />);
+    wrappedInnerContent.push(this.props.afterText);
+    content.push(<div className="blog-post__inner" key="inner-content">{wrappedInnerContent}</div>);
     const { commentCount, commentStatus } = this.props;
     if (commentStatus !== 'disabled' && !(commentStatus === 'readonly' && commentCount === 0)) {
       content.push(
