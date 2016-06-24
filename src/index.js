@@ -9,6 +9,7 @@ import Rubric from './parts/rubric';
 import ShareBar from './parts/blog-post-sharebar';
 import Text from './parts/text';
 import Title from './parts/title';
+import Sticky from '@economist/component-stickyfill';
 
 import classnames from 'classnames';
 import urlJoin from 'url-join';
@@ -88,9 +89,9 @@ export default class BlogPost extends React.Component {
         let minutes = date.getMinutes() < tenMinutes ? '0' : '';
         minutes += date.getMinutes();
         return [ `${ shortMonthList[date.getMonth()] }`,
-                 `${ addPostFix(date.getDate()) }`,
-                 `${ date.getFullYear() },`,
-                 `${ date.getHours() }:${ minutes }` ].join(' ');
+          `${ addPostFix(date.getDate()) }`,
+          `${ date.getFullYear() },`,
+          `${ date.getHours() }:${ minutes }` ].join(' ');
       },
     };
   }
@@ -178,6 +179,9 @@ export default class BlogPost extends React.Component {
 
   render() {
     let content = [];
+    // aside and text content are wrapped together into a component.
+    // that makes it easier to move the aside around relatively to its containter
+    let wrappedInnerContent = [];
     const asideableContent = [];
     let sectionDateAuthor = [];
     content = this.addRubric(content, this.props.rubric);
@@ -197,20 +201,22 @@ export default class BlogPost extends React.Component {
     }
     asideableContent.push(<ShareBar key="sharebar" />);
     if (asideableContent.length) {
-      content.push((
-        <div
-          className="blog-post__asideable-content blog-post__asideable-content--meta"
-          key="asideable-content"
+      wrappedInnerContent.push((
+        <Sticky tag="div" className="blog-post__asideable-wrapper" key="asideable-content"
+          ref="asideable"
         >
-          {asideableContent}
-        </div>
+          <div className="blog-post__asideable-content blog-post__asideable-content--meta">
+            {asideableContent}
+          </div>
+        </Sticky>
       ));
     }
     if (this.props.author) {
-      content.push(<Author key="blog-post__author" author={this.props.author} />);
+      wrappedInnerContent.push(<Author key="blog-post__author" author={this.props.author} />);
     }
-    content.push(<Text text={this.props.text} key="blog-post__text" />);
-    content.push(this.props.afterText);
+    wrappedInnerContent.push(<Text text={this.props.text} key="blog-post__text" />);
+    wrappedInnerContent.push(this.props.afterText);
+    content.push(<div className="blog-post__inner" key="inner-content">{wrappedInnerContent}</div>);
     const { commentCount, commentStatus } = this.props;
     if (commentStatus !== 'disabled' && !(commentStatus === 'readonly' && commentCount === 0)) {
       content.push(
@@ -231,6 +237,7 @@ export default class BlogPost extends React.Component {
         itemProp={this.props.itemProp}
         itemType={this.props.itemType}
         role="article"
+        ref="article"
       >
         <FlyTitle title={this.props.flyTitle} key="blog-post__flytitle" />
         <Title title={this.props.title} key="blog-post__title" />
