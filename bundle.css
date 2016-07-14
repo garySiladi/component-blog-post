@@ -511,8 +511,16 @@ body {
   height: auto;
 }
 .blog-post-article-image__slim {
-  width: auto;
-  max-width: 100%;
+  max-width: 290px;
+}
+@media screen and (min-width: 690px) {
+  .blog-post__inline-image--generic {
+    float: left;
+  }
+  .blog-post-article-image__slim {
+    margin-top: 8px;
+    margin-right: 30px;
+  }
 }
 @media (min-width: 1114px) {
   .main-content__blog-post .blog-post__asideable-content {
