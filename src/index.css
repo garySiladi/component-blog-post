@@ -12,7 +12,10 @@
 :root {
   --slim-max-width: 290px;
   --slim-margin: 30px;
+  --slim-margin-top: 8px;
 }
+
+@custom-media --blog-post-small-layout screen and (width >= 690px);
 
 .blog-post {
   font-family: var(--fontfamily-sans);
@@ -199,17 +202,16 @@
 }
 
 .blog-post-article-image__slim {
-  width: auto;
-  max-width: 100%;
+  max-width: var(--slim-max-width);
 }
 
 
-@media (--fe-blogs-small-layout) {
+@media (--blog-post-small-layout) {
   .blog-post__inline-image--generic {
     float: left;
   }
   .blog-post-article-image__slim {
-    max-width: var(--slim-max-width);
+    margin-top: var(--slim-margin-top);
     margin-right: var(--slim-margin);
   }
 }
