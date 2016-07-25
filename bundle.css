@@ -374,22 +374,6 @@ body {
   letter-spacing: 0.015em;
   line-height: 1.4;
 }
-.blog-post__flytitle {
-  margin: 0 0 0.1em 0;
-  color: #e3120b;
-  font-size: 0.88889em;
-  font-weight: normal;
-  line-height: 1.35;
-}
-.blog-post__title {
-  margin: 0 0 0.714em 0;
-  color: #121212;
-  font-family: 'MiloSerifPro', Palatino, serif;
-  font-size: 1.80204em;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1.25;
-}
 .blog-post__text,
 .blog-post__rubric {
   color: #121212;
