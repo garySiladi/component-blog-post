@@ -2,13 +2,11 @@ import Author from './parts/author';
 import BlogPostImage from './parts/blog-post-image';
 import BlogPostSection from './parts/blog-post-section';
 import Comments from './parts/comments';
-import FlyTitle from './parts/fly-title';
 import ImageCaption from './parts/image-caption';
 import React from 'react';
 import Rubric from './parts/rubric';
 import ShareBar from './parts/blog-post-sharebar';
 import Text from './parts/text';
-import Title from './parts/title';
 import Sticky from '@economist/component-stickyfill';
 
 import classnames from 'classnames';
@@ -29,6 +27,7 @@ export default class BlogPost extends React.Component {
       sectionUrl: React.PropTypes.string,
       flyTitle: React.PropTypes.string,
       title: React.PropTypes.string.isRequired,
+      TitleComponent: React.PropTypes.func.isRequired,
       rubric: React.PropTypes.string,
       dateTime: React.PropTypes.instanceOf(Date),
       dateString: React.PropTypes.string,
@@ -230,6 +229,7 @@ export default class BlogPost extends React.Component {
       );
     }
 
+    const TitleComponent = this.props.TitleComponent;
     return (
       <article
         itemScope
@@ -239,8 +239,7 @@ export default class BlogPost extends React.Component {
         role="article"
         ref="article"
       >
-        <FlyTitle title={this.props.flyTitle} key="blog-post__flytitle" />
-        <Title title={this.props.title} key="blog-post__title" />
+        <TitleComponent title={this.props.title} flyTitle={this.props.flyTitle} />
         {content}
 
       </article>
