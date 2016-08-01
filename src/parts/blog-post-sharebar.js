@@ -17,8 +17,6 @@ const MobileProviders = (
   <div className="blog-post__sharebar-mobile">
     <ShareBar
       icons={[
-        'facebook',
-        'twitter',
         'linkedin',
         'googleplus',
         'mail',
@@ -31,8 +29,8 @@ const MobileProviders = (
 export default function BlogPostSideBar() {
   const shareBarTrigger = (
     <a href="/Sections">
-      <Icon className="blog-post__sharebar-icon-share" icon="share" size="23px" />
-      <Icon className="blog-post__sharebar-icon-close" icon="close" size="23px" />
+      <Icon className="blog-post__sharebar-icon-more" icon="more" size="23px" />
+      <span className="blog-post__sharebar-word-more">More</span>
     </a>
   );
 
@@ -45,7 +43,7 @@ export default function BlogPostSideBar() {
 
   return (
     <div className="blog-post__sharebar">
-      {!isMobile && <ShareBar icons={[ 'twitter', 'facebook' ]} />}
+      <ShareBar icons={[ 'twitter', 'facebook' ]} />
       <Balloon
         className={classnames(
           'blog-post__toggle-share',
