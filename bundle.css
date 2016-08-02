@@ -206,7 +206,6 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  height: 38px;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -226,6 +225,9 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  color: #383e42;
+  font-size: 0.62429em;
+  text-decoration: none;
 }
 .blog-post__toggle-share.balloon--not-visible .blog-post__sharebar-icon-close,
 .blog-post__toggle-share.balloon--visible .blog-post__sharebar-icon-share {
@@ -242,9 +244,12 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  height: 55px;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -ms-flex-item-align: center;
+      align-self: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
 }
@@ -257,27 +262,62 @@ body {
           align-items: center;
 }
 .blog-post__sharebar .Icon {
+  box-sizing: border-box;
   width: 31px;
+  height: 31px;
+  padding: 4px;
+  background-color: #383e42;
+  border-radius: 9999999px;
 }
 .blog-post__sharebar .share__link {
   display: block;
   line-height: 0;
 }
-.blog-post__sharebar .share__icon {
-  margin-right: 18px;
-  margin-right: 1rem;
+.balloon__link .Icon-more {
+  margin-right: 0.714em;
+}
+.blog-post__sharebar-word-more {
+  vertical-align: middle;
+  height: 31px;
+  cursor: pointer;
+  line-height: 31px;
+}
+.balloon-content .share-component__icons {
+  height: 50px;
 }
 /* stylelint-disable selector-no-type */
 /* unknown class */
 .blog-post__sharebar .Icon-facebook use {
-  fill: #3b5998;
+  fill: #fff;
 }
 .blog-post__sharebar .Icon-twitter use {
-  fill: #55acee;
+  fill: #fff;
+}
+.blog-post__sharebar .share__icon--facebook {
+  /* stylelint-disable declaration-no-important */
+  /* Need important for styling to persist */
+  margin-right: 0.35em !important;
+  /* stylelint-enable declaration-no-important */
+}
+.blog-post__sharebar .share__icon--twitter {
+  /* stylelint-disable declaration-no-important */
+  /* Need important for styling to persist */
+  margin-right: 0.714em !important;
+  /* stylelint-enable declaration-no-important */
+}
+.blog-post__sharebar .Icon-more use {
+  fill: #fff;
+}
+.share-component__icons .Icon-linkedin,
+.share-component__icons .Icon-googleplus,
+.share-component__icons .Icon-mail,
+.share-component__icons .Icon-print,
+.share-component__icons .Icon-whatsapp {
+  background-color: #f2f2f2;
 }
 .blog-post__sharebar .balloon-content svg,
 .blog-post__sharebar .balloon-content use {
-  fill: #fff;
+  fill: #383e42;
 }
 /* stylelint-enable selector-no-type */
 .blog-post__sharebar .balloon-content {
@@ -300,6 +340,23 @@ body {
 .blog-post__sharebar .balloon__triangle {
   border-bottom-color: #383e42;
 }
+.blog-post__toggle-share .balloon__triangle {
+  top: 46px;
+  left: 15px;
+}
+.blog-post__sharebar .balloon--visible {
+  height: 100%;
+  padding-right: 0.35em;
+  padding-left: 0.35em;
+  background-color: #f2f2f2;
+}
+.blog-post__sharebar .balloon--not-visible {
+  padding-right: 0.35em;
+  padding-left: 0.35em;
+}
+.blog-post__toggle-share .balloon-content {
+  top: 52px;
+}
 @media (max-width: 768px) {
   .blog-post__sharebar-icon-share,
   .blog-post__sharebar-icon-close {
@@ -309,7 +366,7 @@ body {
 }
 @media (min-width: 1114px) {
   .blog-post__sharebar {
-    padding-left: 0.75rem;
+    padding-left: 0.35em;
     -webkit-box-pack: start;
         -ms-flex-pack: start;
             justify-content: flex-start;
@@ -360,6 +417,12 @@ body {
   margin-bottom: 1.45em;
   padding: 0;  /* Resetting default browser styles */
 }
+.blog-post__section-date-author {
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
+  -ms-flex-item-align: center;
+      align-self: center;
+}
 .blog-post__image-block {
   display: block;  /* Because if it was inline it would have a line-height */
   width: 100%;
@@ -406,7 +469,7 @@ body {
   font-weight: 300;
 }
 .blog-post__section {
-  margin: 0.35em 0;
+  margin: 0;
   color: #121212;
   font-size: 0.79012em;
   font-weight: normal;
@@ -481,14 +544,13 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  padding: 0.35em 0 0.35em 0;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  border-top: 1px solid #f2f2f2;
-  border-bottom: 1px solid #f2f2f2;
+  border-top: 1px solid var(--color-cardiff);
+  border-bottom: 1px solid var(--color-cardiff);
 }
 .blog-post-article-image {
   width: 100%;
@@ -513,9 +575,9 @@ body {
   }
   .blog-post__section-date-author {
     width: 100%;
-    padding-bottom: 0.714em;
-    padding-left: 0.75rem;
-    border-bottom: 1px solid #f2f2f2;
+    padding-bottom: 0.35em;
+    padding-left: 0.35em;
+    border-bottom: 1px solid var(--color-cardiff);
   }
 }
 .blog-post {
