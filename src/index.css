@@ -199,7 +199,6 @@
   }
   .blog-post-article-image__slim {
     margin-top: var(--slim-margin-top);
-    margin-right: var(--slim-margin);
   }
 }
 
