@@ -4,14 +4,21 @@ import MobileDetect from 'mobile-detect';
 import React from 'react';
 import ShareBar from '@economist/component-sharebar';
 import classnames from 'classnames';
+import url from 'url';
 
 function generateCopyrightUrl(title, publicationDate, contentID) {
-  return `https://s100.copyright.com/AppDispatchServlet?
-publisherName=economist&
-publication=economist&
-title=${ title }&
-publicationDate=${ publicationDate }&
-contentID=${ contentID }`;
+  return url.format({
+    protocol: 'https:',
+    host: 's100.copyright.com',
+    pathname: '/AppDispatchServlet',
+    query: {
+      publisherName: 'economist',
+      publication: 'economist',
+      title,
+      publicationDate,
+      contentID,
+    },
+  });
 }
 
 function DesktopProviders({ title = '', publicationDate = '', contentID = '' } = {}) {
