@@ -5,28 +5,44 @@ import React from 'react';
 import ShareBar from '@economist/component-sharebar';
 import classnames from 'classnames';
 
-const DesktopProviders = (
-  <div className="blog-post__sharebar-desktop">
+function generateCopyrightUrl(title, publicationDate, contentID) {
+  return `https://s100.copyright.com/AppDispatchServlet?
+publisherName=economist&
+publication=economist&
+title=${ title }&
+publicationDate=${ publicationDate }&
+contentID=${ contentID }`;
+}
+
+function DesktopProviders({ title = '', publicationDate = '', contentID = '' } = {}) {
+  return (<div className="blog-post__sharebar-desktop">
     <ShareBar
-      icons={[ 'linkedin', 'googleplus', 'mail', 'print' ]}
-      urlOverrides={{ mail: 'mailto:?body=' }}
+      icons={[ 'linkedin', 'googleplus', 'mail', 'print', 'purchaseRights' ]}
+      urlOverrides={{
+        mail: 'mailto:?body=',
+        purchaseRights: generateCopyrightUrl(title, publicationDate, contentID),
+      }}
     />
-  </div>
-);
-const MobileProviders = (
-  <div className="blog-post__sharebar-mobile">
+  </div>);
+}
+function MobileProviders({ title = '', publicationDate = '', contentID = '' } = {}) {
+  return (<div className="blog-post__sharebar-mobile">
     <ShareBar
       icons={[
         'linkedin',
         'googleplus',
         'mail',
         'whatsapp',
+        'purchaseRights',
       ]}
-      urlOverrides={{ mail: 'mailto:?body=' }}
+      urlOverrides={{
+        mail: 'mailto:?body=',
+        purchaseRights: generateCopyrightUrl(title, publicationDate, contentID),
+      }}
     />
-  </div>
-);
-export default function BlogPostSideBar() {
+  </div>);
+}
+export default function BlogPostSideBar(props = {}) {
   const shareBarTrigger = (
     <a href="/Sections">
       <Icon className="blog-post__sharebar-icon-more" icon="more" size="23px" />
@@ -52,7 +68,7 @@ export default function BlogPostSideBar() {
         shadow={false}
         trigger={shareBarTrigger}
       >
-      {isMobile ? MobileProviders : DesktopProviders}
+      {isMobile ? <MobileProviders {...props} /> : <DesktopProviders {...props} />}
       </Balloon>
     </div>
   );
