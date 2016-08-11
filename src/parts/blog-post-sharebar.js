@@ -35,6 +35,8 @@ function providersContent(platform, componentProps, purchaseRights) {
     );
   }
 
+  console.log(componentProps) // eslint-disable-line
+
   return (
     <div
       className={`blog-post__sharebar-${ platform }`}
