@@ -6,7 +6,7 @@ import ShareBar from '@economist/component-sharebar';
 import classnames from 'classnames';
 import url from 'url';
 
-function generateCopyrightUrl(title, publicationDate, contentID) {
+function generateCopyrightUrl(type, title, publicationDate, contentID) {
   return url.format({
     protocol: 'https:',
     host: 's100.copyright.com',
@@ -17,37 +17,56 @@ function generateCopyrightUrl(title, publicationDate, contentID) {
       title,
       publicationDate,
       contentID,
+      type,
+      orderBeanReset: 0,
     },
   });
 }
+function providersContent(platform, componentProps, purchaseRights) {
+  // If the MobileProviders/DesktopProviders component is called with arguments
+  // we need to include purchase rights on the sharebar
+  if (purchaseRights.type) {
+    componentProps.icons.push('purchaseRights');
+    componentProps.urlOverrides.purchaseRights = generateCopyrightUrl(
+      purchaseRights.type,
+      purchaseRights.title,
+      purchaseRights.publicationDate,
+      purchaseRights.contentID
+    );
+  }
 
-function DesktopProviders({ title = '', publicationDate = '', contentID = '' } = {}) {
-  return (<div className="blog-post__sharebar-desktop">
-    <ShareBar
-      icons={[ 'linkedin', 'googleplus', 'mail', 'print', 'purchaseRights' ]}
-      urlOverrides={{
-        mail: 'mailto:?body=',
-        purchaseRights: generateCopyrightUrl(title, publicationDate, contentID),
-      }}
-    />
-  </div>);
+  return (
+    <div
+      className={`blog-post__sharebar-${ platform }`}
+      style={purchaseRights.type ? { fontSize: '30px' } : {}}
+    >
+      <ShareBar {...componentProps} />
+    </div>
+  );
 }
-function MobileProviders({ title = '', publicationDate = '', contentID = '' } = {}) {
-  return (<div className="blog-post__sharebar-mobile">
-    <ShareBar
-      icons={[
-        'linkedin',
-        'googleplus',
-        'mail',
-        'whatsapp',
-        'purchaseRights',
-      ]}
-      urlOverrides={{
-        mail: 'mailto:?body=',
-        purchaseRights: generateCopyrightUrl(title, publicationDate, contentID),
-      }}
-    />
-  </div>);
+function DesktopProviders(props = {}) {
+  const icons = [
+    'linkedin',
+    'googleplus',
+    'mail',
+    'print',
+  ];
+  const urlOverrides = {
+    mail: 'mailto:?body=',
+  };
+  return providersContent('mobile', { icons, urlOverrides }, props);
+}
+function MobileProviders(props = {}) {
+  const icons = [
+    'linkedin',
+    'googleplus',
+    'mail',
+    'whatsapp',
+  ];
+  const urlOverrides = {
+    mail: 'mailto:?body=',
+  };
+  return providersContent('mobile', { icons, urlOverrides }, props);
 }
 export default function BlogPostSideBar(props = {}) {
   const shareBarTrigger = (

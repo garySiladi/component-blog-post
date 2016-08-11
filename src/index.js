@@ -12,6 +12,10 @@ import Sticky from '@economist/component-stickyfill';
 import classnames from 'classnames';
 import urlJoin from 'url-join';
 
+function twoDigits(int) {
+  return int > 9 ? '' + int : '0' + int; // eslint-disable-line
+}
+
 export default class BlogPost extends React.Component {
   static get propTypes() {
     return {
@@ -27,6 +31,9 @@ export default class BlogPost extends React.Component {
       sectionUrl: React.PropTypes.string,
       flyTitle: React.PropTypes.string,
       title: React.PropTypes.string.isRequired,
+      type: React.PropTypes.string.isRequired,
+      id: React.PropTypes.string.isRequired,
+      publicationDate: React.PropTypes.string.isRequired,
       TitleComponent: React.PropTypes.func.isRequired,
       rubric: React.PropTypes.string,
       dateTime: React.PropTypes.instanceOf(Date),
@@ -198,7 +205,22 @@ export default class BlogPost extends React.Component {
         </div>
       );
     }
-    asideableContent.push(<ShareBar key="sharebar" />);
+
+    // Share bar publicationDate formatted
+    let shareBarPublicateDate = new Date(this.props.publicationDate * 1000) // eslint-disable-line
+    shareBarPublicateDate = `${ String(shareBarPublicateDate.getFullYear()) }
+${ String(twoDigits(shareBarPublicateDate.getMonth() + 1)) }
+${ String(twoDigits(shareBarPublicateDate.getDate())) }`.replace(/\s/g, '');
+
+    asideableContent.push(
+      <ShareBar
+        key="sharebar"
+        type={this.props.type === 'post' ? 'BL' : 'A'}
+        title={this.props.title}
+        publicationDate={shareBarPublicateDate}
+        contentID={this.props.id}
+      />
+    );
     if (asideableContent.length) {
       wrappedInnerContent.push((
         <Sticky tag="div" className="blog-post__asideable-wrapper" key="asideable-content"
