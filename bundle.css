@@ -17,55 +17,113 @@
   font-family: EconSans;
   font-style: normal;
   src:
-    /* Super Modern Browsers */
     url('/assets/ecosans-reg.woff2') format('woff2'),
-    /* Pretty Modern Browsers */
     url('/assets/ecosans-reg.woff') format('woff');
 }
 @font-face {
   font-family: EconSans;
   font-weight: 700;
   src:
-    /* Super Modern Browsers */
     url('/assets/ecosans-bol.woff2') format('woff2'),
-    /* Pretty Modern Browsers */
     url('/assets/ecosans-bol.woff') format('woff');
 }
 @font-face {
   font-family: EconSans;
   font-style: italic;
   src:
-    /* Super Modern Browsers */
     url('/assets/ecosans-ita.woff2') format('woff2'),
-    /* Pretty Modern Browsers */
     url('/assets/ecosans-ita.woff') format('woff');
 }
 @font-face {
   font-family: MiloSerifPro;
   font-style: normal;
   src:
-    /* Super Modern Browsers */
     url('/assets/ecoserif-reg.woff2') format('woff2'),
-    /* Pretty Modern Browsers */
     url('/assets/ecoserif-reg.woff') format('woff');
 }
 @font-face {
   font-family: MiloSerifPro;
   font-style: italic;
   src:
-    /* Super Modern Browsers */
     url('/assets/ecoserif-ita.woff2') format('woff2'),
-    /* Pretty Modern Browsers */
     url('/assets/ecoserif-ita.woff') format('woff');
 }
 @font-face {
   font-family: MiloSerifPro;
   font-weight: 500;
   src:
-    /* Super Modern Browsers */
     url('/assets/ecoserif-med.woff2') format('woff2'),
-    /* Pretty Modern Browsers */
     url('/assets/ecoserif-med.woff') format('woff');
+}
+@font-face {
+  font-family: EconSansCnd-Light;
+  font-weight: normal;
+  src:
+    url('/assets/econsanscndlig-webfont.woff2') format('woff2'),
+    url('/assets/econsanscndlig-webfont.woff') format('woff');
+}
+@font-face {
+  font-family: EconSansCnd-LightIt;
+  font-weight: normal;
+  src:
+    url('/assets/econsanscndligita-webfont.woff2') format('woff2'),
+    url('/assets/econsanscndligita-webfont.woff') format('woff');
+}
+@font-face {
+  font-family: EconSansCnd-Regular;
+  font-weight: normal;
+  src:
+    url('/assets/econsanscndreg-webfont.woff2') format('woff2'),
+    url('/assets/econsanscndreg-webfont.woff') format('woff');
+}
+@font-face {
+  font-family: EconSansCnd-Italic;
+  font-weight: normal;
+  src:
+    url('/assets/econsanscndita-webfont.woff2') format('woff2'),
+    url('/assets/econsanscndita-webfont.woff') format('woff');
+}
+@font-face {
+  font-family: EconSansCnd-Medium;
+  font-weight: normal;
+  src:
+    url('/assets/econsanscndmed-webfont.woff2') format('woff2'),
+    url('/assets/econsanscndmed-webfont.woff') format('woff');
+}
+@font-face {
+  font-family: EconSansCnd-MediumIt;
+  font-weight: normal;
+  src:
+    url('/assets/econsanscndmedita-webfont.woff2') format('woff2'),
+    url('/assets/econsanscndmedita-webfont.woff') format('woff');
+}
+@font-face {
+  font-family: EconSansCnd-Bold;
+  font-weight: normal;
+  src:
+    url('/assets/econsanscndbol-webfont.woff2') format('woff2'),
+    url('/assets/econsanscndbol-webfont.woff') format('woff');
+}
+@font-face {
+  font-family: EconSansCnd-BoldIt;
+  font-weight: normal;
+  src:
+    url('/assets/econsanscndbolita-webfont.woff2') format('woff2'),
+    url('/assets/econsanscndbolita-webfont.woff') format('woff');
+}
+@font-face {
+  font-family: EconSansCnd-ExtraBold;
+  font-weight: normal;
+  src:
+    url('/assets/econsanscndxbol-webfont.woff2') format('woff2'),
+    url('/assets/econsanscndxbol-webfont.woff') format('woff');
+}
+@font-face {
+  font-family: EconSansCnd-ExtraBoldIt;
+  font-weight: normal;
+  src:
+    url('/assets/econsansxbolita-webfont.woff2') format('woff2'),
+    url('/assets/econsansxbolita-webfont.woff') format('woff');
 }
 /**
  * Modular scale for type.
@@ -133,8 +191,14 @@ body {
 .icon--balloon-economist {
   background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%20style%3D%22fill%3A%23E3120B%3B%22%20height%3D%22%22%20width%3D%22%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M254.5%20146.5c-59.5%200-108%2048.5-108%20108v387c0%2059.5%2048.5%20108%20108%20108H688l116.2%20116.3%2074.4%2074.3V835l-.4-580.5c0-59.5-48.2-108-107.7-108h-516zm536.7%20108V732l-54.4-56.8-12.8-12.7H254.5c-11.5%200-21-9.5-21-21v-387c0-11.5%209.5-21%2021-21h516c11.3%200%2020.7%209.4%2020.7%2021z%22%2F%3E%0A%3C%2Fsvg%3E");
 }
+.icon--balloon-moscow {
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%20style%3D%22fill%3A%237a7a7a%3B%22%20height%3D%22%22%20width%3D%22%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M254.5%20146.5c-59.5%200-108%2048.5-108%20108v387c0%2059.5%2048.5%20108%20108%20108H688l116.2%20116.3%2074.4%2074.3V835l-.4-580.5c0-59.5-48.2-108-107.7-108h-516zm536.7%20108V732l-54.4-56.8-12.8-12.7H254.5c-11.5%200-21-9.5-21-21v-387c0-11.5%209.5-21%2021-21h516c11.3%200%2020.7%209.4%2020.7%2021z%22%2F%3E%0A%3C%2Fsvg%3E");
+}
 .icon--balloon-london {
   background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%20style%3D%22fill%3A%23B6B6B6%3B%22%20height%3D%22%22%20width%3D%22%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M254.5%20146.5c-59.5%200-108%2048.5-108%20108v387c0%2059.5%2048.5%20108%20108%20108H688l116.2%20116.3%2074.4%2074.3V835l-.4-580.5c0-59.5-48.2-108-107.7-108h-516zm536.7%20108V732l-54.4-56.8-12.8-12.7H254.5c-11.5%200-21-9.5-21-21v-387c0-11.5%209.5-21%2021-21h516c11.3%200%2020.7%209.4%2020.7%2021z%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+.icon--balloon-kiev {
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%20style%3D%22fill%3A%23383e42%3B%22%20height%3D%22%22%20width%3D%22%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M254.5%20146.5c-59.5%200-108%2048.5-108%20108v387c0%2059.5%2048.5%20108%20108%20108H688l116.2%20116.3%2074.4%2074.3V835l-.4-580.5c0-59.5-48.2-108-107.7-108h-516zm536.7%20108V732l-54.4-56.8-12.8-12.7H254.5c-11.5%200-21-9.5-21-21v-387c0-11.5%209.5-21%2021-21h516c11.3%200%2020.7%209.4%2020.7%2021z%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 .icon--balloon-thimphu {
   background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%201024%22%20style%3D%22fill%3A%23FFFFFF%3B%22%20height%3D%22%22%20width%3D%22%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M254.5%20146.5c-59.5%200-108%2048.5-108%20108v387c0%2059.5%2048.5%20108%20108%20108H688l116.2%20116.3%2074.4%2074.3V835l-.4-580.5c0-59.5-48.2-108-107.7-108h-516zm536.7%20108V732l-54.4-56.8-12.8-12.7H254.5c-11.5%200-21-9.5-21-21v-387c0-11.5%209.5-21%2021-21h516c11.3%200%2020.7%209.4%2020.7%2021z%22%2F%3E%0A%3C%2Fsvg%3E");
@@ -149,6 +213,9 @@ body {
   position: relative;
   font-size: 18px;
   font-size: 1rem;
+}
+.navigation__main-navigation--desktop .balloon-content:focus {
+  outline: none;
 }
 .balloon-content {
   box-sizing: border-box;
@@ -549,8 +616,8 @@ body {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  border-top: 1px solid var(--color-cardiff);
-  border-bottom: 1px solid var(--color-cardiff);
+  border-top: 1px solid #d7d7d7;
+  border-bottom: 1px solid #d7d7d7;
 }
 .blog-post-article-image {
   width: 100%;
@@ -576,7 +643,7 @@ body {
     width: 100%;
     padding-bottom: 0.35em;
     padding-left: 0.35em;
-    border-bottom: 1px solid var(--color-cardiff);
+    border-bottom: 1px solid #d7d7d7;
   }
 }
 .blog-post {
