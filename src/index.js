@@ -57,6 +57,7 @@ export default class BlogPost extends React.Component {
       firstToCommentLabel: React.PropTypes.string.isRequired,
       viewCommentsLabel: React.PropTypes.string.isRequired,
       commentsUri: React.PropTypes.string.isRequired,
+      children: React.PropTypes.object,
     };
   }
   static get defaultProps() {
@@ -127,7 +128,12 @@ export default class BlogPost extends React.Component {
   }
 
   addImage(content, image = {}) {
-    if (image) {
+    if (this.props.children) {
+      return [
+        ...content,
+        ...this.props.children,
+      ];
+    } else if (image) {
       const { src, caption, alt } = image;
       if (src) {
         const imageCaption = caption ? <ImageCaption caption={caption} key="blog-post__image-caption" /> : null;
