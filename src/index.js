@@ -217,12 +217,12 @@ export default class BlogPost extends React.Component {
     shareBarPublicateDate = `${ String(shareBarPublicateDate.getFullYear()) }
 ${ String(twoDigits(shareBarPublicateDate.getMonth() + 1)) }
 ${ String(twoDigits(shareBarPublicateDate.getDate())) }`.replace(/\s/g, '');
-
     asideableContent.push(
       <ShareBar
         key="sharebar"
         type={this.props.type === 'post' ? 'BL' : 'A'}
         title={this.props.title}
+        flyTitle={this.props.flyTitle}
         publicationDate={shareBarPublicateDate}
         contentID={this.props.id}
       />

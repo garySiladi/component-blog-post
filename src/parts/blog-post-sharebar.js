@@ -85,7 +85,11 @@ export default function BlogPostSideBar(props = {}) {
 
   return (
     <div className="blog-post__sharebar">
-      <ShareBar icons={[ 'twitter', 'facebook' ]} />
+      <ShareBar
+        icons={[ 'twitter', 'facebook' ]}
+        title={props.title}
+        flyTitle={props.flyTitle}
+      />
       <Balloon
         className={classnames(
           'blog-post__toggle-share',
@@ -98,4 +102,11 @@ export default function BlogPostSideBar(props = {}) {
       </Balloon>
     </div>
   );
+}
+
+if (process.env.NODE_ENV !== 'production') {
+  BlogPostSideBar.propTypes = {
+    title: React.PropTypes.string,
+    flyTitle: React.PropTypes.string,
+  };
 }
