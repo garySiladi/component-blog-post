@@ -64,7 +64,6 @@
   box-sizing: border-box;
   width: 31px;
   height: 31px;
-  padding: 4px;
   background-color: var(--color-kiev);
   border-radius: 9999999px;
 }

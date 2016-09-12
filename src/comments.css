@@ -17,8 +17,14 @@
   border-left: var(--comments-border-left);
 }
 
+.blog-post__comments:hover > .blog-post__comments-icon {
+  opacity: 0.8;
+}
+
 .blog-post__comments-icon {
-  width: var(--comments__icon-width);
-  height: var(--comments__icon-height);
+  width: 31px;
+  height: 31px;
   margin-right: var(--comments__icon-margin-right);
+  background-color: var(--color-kiev);
+  border-radius: 100%;
 }
