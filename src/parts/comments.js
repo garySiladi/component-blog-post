@@ -6,7 +6,7 @@ export default function Comments({ firstToCommentLabel, commentCount, viewCommen
     firstToCommentLabel;
   return (
     <a className="blog-post__comments" href={commentsUri}>
-      <div className="blog-post__comments-icon icon icon--balloon-economist" />
+      <div className="blog-post__comments-icon icon icon--balloon-berlin" />
       <div className="blog-post__comments-label">
         {label}
       </div>
