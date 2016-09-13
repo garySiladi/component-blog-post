@@ -332,7 +332,6 @@ body {
   box-sizing: border-box;
   width: 31px;
   height: 31px;
-  padding: 4px;
   background-color: #383e42;
   border-radius: 9999999px;
 }
@@ -463,11 +462,16 @@ body {
   border-bottom: 1px solid #f2f2f2;
   border-left: 0;
 }
+.blog-post__comments:hover > .blog-post__comments-icon {
+  opacity: 0.8;
+}
 .blog-post__comments-icon {
-  width: 25px;
-  height: 25px;
+  width: 31px;
+  height: 31px;
   margin-right: 13.5px;
   margin-right: 0.75rem;
+  background-color: #383e42;
+  border-radius: 100%;
 }
 .blog-post {
   font-family: 'EconSans', Tahoma, sans-serif;
