@@ -7,7 +7,6 @@ import React from 'react';
 import Rubric from './parts/rubric';
 import ShareBar from './parts/blog-post-sharebar';
 import Text from './parts/text';
-import Sticky from '@economist/component-stickyfill';
 
 import classnames from 'classnames';
 import urlJoin from 'url-join';
@@ -215,27 +214,29 @@ export default class BlogPost extends React.Component {
     // Share bar publicationDate formatted
     let shareBarPublicateDate = new Date(this.props.publicationDate * 1000) // eslint-disable-line
     shareBarPublicateDate = `${ String(shareBarPublicateDate.getFullYear()) }
-${ String(twoDigits(shareBarPublicateDate.getMonth() + 1)) }
-${ String(twoDigits(shareBarPublicateDate.getDate())) }`.replace(/\s/g, '');
-    asideableContent.push(
-      <ShareBar
+    ${ String(twoDigits(shareBarPublicateDate.getMonth() + 1)) }
+    ${ String(twoDigits(shareBarPublicateDate.getDate())) }`.replace(/\s/g, '');
+    const shareBarDefault =
+      (<ShareBar
         key="sharebar"
         type={this.props.type === 'post' ? 'BL' : 'A'}
         title={this.props.title}
         flyTitle={this.props.flyTitle}
         publicationDate={shareBarPublicateDate}
         contentID={this.props.id}
-      />
+       />);
+    asideableContent.push(
+      shareBarDefault
     );
     if (asideableContent.length) {
       wrappedInnerContent.push((
-        <Sticky tag="div" className="blog-post__asideable-wrapper" key="asideable-content"
+        <div className="blog-post__asideable-wrapper" key="asideable-content"
           ref="asideable"
         >
           <div className="blog-post__asideable-content blog-post__asideable-content--meta">
             {asideableContent}
           </div>
-        </Sticky>
+        </div>
       ));
     }
     if (this.props.author) {
@@ -245,6 +246,11 @@ ${ String(twoDigits(shareBarPublicateDate.getDate())) }`.replace(/\s/g, '');
     wrappedInnerContent.push(<div key="blog-post__after-text">{this.props.afterText}</div>);
     content.push(<div className="blog-post__inner" key="inner-content">{wrappedInnerContent}</div>);
     const { commentCount, commentStatus } = this.props;
+    content.push(
+      <div className="blog-post__bottom-panel">
+        {shareBarDefault}
+      </div>
+    );
     if (commentStatus !== 'disabled' && !(commentStatus === 'readonly' && commentCount === 0)) {
       content.push(
         <Comments
@@ -256,7 +262,6 @@ ${ String(twoDigits(shareBarPublicateDate.getDate())) }`.replace(/\s/g, '');
         />
       );
     }
-
     const TitleComponent = this.props.TitleComponent;
     return (
       <article
