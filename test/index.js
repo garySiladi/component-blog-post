@@ -70,7 +70,10 @@ describe('BlogPost', () => {
 
   describe('Comments', () => {
     it('renders the comments (#comments > 0)', () => {
-      const post = mountComponentWithProps({ commentCount: 10 });
+      const post = mountComponentWithProps({
+        commentCount: 10,
+        viewCommentsLabel: 'foo'
+      });
       post.should.have.exactly(1).descendants('.blog-post__comments');
       post.find('.blog-post__comments').should.have.attr('href', requiredProps.commentsUri);
       post.find('.blog-post__comments-label')
@@ -182,35 +185,39 @@ describe('BlogPost', () => {
 
       it('should feature the twitter and facebook share buttons', () => {
         const post = mountComponentWithProps();
-        const twitterShareLinkNode = post.find('.share__icon--twitter').find('a');
-        twitterShareLinkNode.should.have.attr('href', 'https://twitter.com/intent/tweet?url=');
-        const facebookShareLinkNode = post.find('.share__icon--facebook').find('a');
-        facebookShareLinkNode.should.have.attr('href', 'http://www.facebook.com/sharer/sharer.php?u=');
+        post.find('.share__icon--twitter').find('a').forEach(function (node) {
+          node.should.have.attr('href', 'https://twitter.com/intent/tweet?url=');
+        });
+        post.find('.share__icon--facebook').find('a').forEach(function (node) {
+          node.should.have.attr('href', 'http://www.facebook.com/sharer/sharer.php?u=');
+        });
       });
 
       it('should show the other providers when clicking on the share button', () => {
         const post = mountComponentWithProps();
-        const shareBalloonNode = post.find('.blog-post__toggle-share');
-        const balloonContentNode = shareBalloonNode.find('.balloon-content');
-        shareBalloonNode.should.have.className('balloon--not-visible');
-        shareBalloonNode.find('a.balloon__link').simulate('click');
-        shareBalloonNode.should.have.className('balloon--visible');
 
-        balloonContentNode.should.have.exactly(1).descendants('.share__icon--linkedin');
-        balloonContentNode.find('.share__icon--linkedin').find('a')
-          .should.have.attr('href', 'https://www.linkedin.com/cws/share?url=');
+        post.find('.blog-post__toggle-share').forEach(function (node) {
+          node.should.have.className('balloon--not-visible');
+          node.find('a.balloon__link').simulate('click');
+          node.should.have.className('balloon--visible');
+          const balloonContentNode = node.find('.balloon-content');
 
-        balloonContentNode.should.have.exactly(1).descendants('.share__icon--googleplus');
-        balloonContentNode.find('.share__icon--googleplus').find('a')
-          .should.have.attr('href', 'https://plus.google.com/share?url=');
+          balloonContentNode.should.have.exactly(1).descendants('.share__icon--linkedin');
+          balloonContentNode.find('.share__icon--linkedin').find('a')
+            .should.have.attr('href', 'https://www.linkedin.com/cws/share?url=');
 
-        balloonContentNode.should.have.exactly(1).descendants('.share__icon--mail');
-        balloonContentNode.find('.share__icon--mail').find('a')
-          .should.have.attr('href', 'mailto:?body=');
+          balloonContentNode.should.have.exactly(1).descendants('.share__icon--googleplus');
+          balloonContentNode.find('.share__icon--googleplus').find('a')
+            .should.have.attr('href', 'https://plus.google.com/share?url=');
 
-        balloonContentNode.should.have.exactly(1).descendants('.share__icon--print');
-        balloonContentNode.find('.share__icon--print').find('a')
-          .should.have.attr('href', 'javascript:if(window.print)window.print()'); // eslint-disable-line no-script-url
+          balloonContentNode.should.have.exactly(1).descendants('.share__icon--mail');
+          balloonContentNode.find('.share__icon--mail').find('a')
+            .should.have.attr('href', 'mailto:?body=');
+
+          balloonContentNode.should.have.exactly(1).descendants('.share__icon--print');
+          balloonContentNode.find('.share__icon--print').find('a')
+            .should.have.attr('href', 'javascript:if(window.print)window.print()'); // eslint-disable-line no-script-url
+        });
       });
     });
 
@@ -223,31 +230,36 @@ describe('BlogPost', () => {
 
       it('shows some share providers outside the more menu', () => {
         const post = mountComponentWithProps();
-        post.find('.share__icon--twitter').find('a')
-          .should.have.attr('href', 'https://twitter.com/intent/tweet?url=');
-        post.find('.share__icon--facebook').find('a')
-          .should.have.attr('href', 'http://www.facebook.com/sharer/sharer.php?u=');
+        post.find('.share__icon--twitter').find('a').forEach(function (node) {
+          node.should.have.attr('href', 'https://twitter.com/intent/tweet?url=');
+        });
+        post.find('.share__icon--facebook').find('a').forEach(function (node) {
+          node.should.have.attr('href', 'http://www.facebook.com/sharer/sharer.php?u=');
+        });
       });
 
       it('should show the mobile providers', () => {
         const post = mountComponentWithProps();
-        const shareBalloonNode = post.find('.blog-post__toggle-share-mobile');
-        const balloonContentNode = shareBalloonNode.find('.balloon-content');
-        balloonContentNode.should.have.exactly(1).descendants('.share__icon--linkedin');
-        balloonContentNode.find('.share__icon--linkedin').find('a')
-          .should.have.attr('href', 'https://www.linkedin.com/cws/share?url=');
 
-        balloonContentNode.should.have.exactly(1).descendants('.share__icon--googleplus');
-        balloonContentNode.find('.share__icon--googleplus').find('a')
-          .should.have.attr('href', 'https://plus.google.com/share?url=');
+        post.find('.blog-post__toggle-share-mobile').forEach(function (node) {
+          const balloonContentNode = node.find('.balloon-content');
+          balloonContentNode.should.have.exactly(1).descendants('.share__icon--linkedin');
+          balloonContentNode.find('.share__icon--linkedin').find('a')
+            .should.have.attr('href', 'https://www.linkedin.com/cws/share?url=');
 
-        balloonContentNode.should.have.exactly(1).descendants('.share__icon--mail');
-        balloonContentNode.find('.share__icon--mail').find('a')
-          .should.have.attr('href', 'mailto:?body=');
+          balloonContentNode.should.have.exactly(1).descendants('.share__icon--googleplus');
+          balloonContentNode.find('.share__icon--googleplus').find('a')
+            .should.have.attr('href', 'https://plus.google.com/share?url=');
 
-        balloonContentNode.should.have.exactly(1).descendants('.share__icon--whatsapp');
-        balloonContentNode.find('.share__icon--whatsapp').find('a')
-          .should.have.attr('href', 'whatsapp://send?text=');
+          balloonContentNode.should.have.exactly(1).descendants('.share__icon--mail');
+          balloonContentNode.find('.share__icon--mail').find('a')
+            .should.have.attr('href', 'mailto:?body=');
+
+          balloonContentNode.should.have.exactly(1).descendants('.share__icon--whatsapp');
+          balloonContentNode.find('.share__icon--whatsapp').find('a')
+            .should.have.attr('href', 'whatsapp://send?text=');
+        });
+
       });
     });
   });
