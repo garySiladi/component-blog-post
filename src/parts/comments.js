@@ -6,8 +6,8 @@ export default function Comments({ firstToCommentLabel, commentCount, viewCommen
   let post = null;
   if (commentCount > 0) {
     content = commentCount;
-    pre = <span className="blog-post__comments-precontent">{`${ viewCommentsLabel } (`}</span>;
-    post = <span className="blog-post__comments-precontent">{')'}</span>;
+    pre = <span className="blog-post__comments-contentwrapper">{`${ viewCommentsLabel } (`}</span>;
+    post = <span className="blog-post__comments-contentwrapper">{')'}</span>;
   }
   return (
     <a className="blog-post__comments" href={commentsUri}>
