@@ -196,7 +196,6 @@ export default class BlogPost extends React.Component {
     const asideableContent = [];
     let sectionDateAuthor = [];
     content = this.addRubric(content, this.props.rubric);
-    content = this.addImage(content, this.props.image);
     sectionDateAuthor = this.addBlogPostSection(sectionDateAuthor, this.props.section, this.props.sectionUrl);
     sectionDateAuthor = this.addDateTime(sectionDateAuthor, this.props);
     sectionDateAuthor = this.addByLine(sectionDateAuthor, this.props.byline);
@@ -228,6 +227,7 @@ export default class BlogPost extends React.Component {
     asideableContent.push(
       shareBarDefault
     );
+    wrappedInnerContent = this.addImage(wrappedInnerContent, this.props.image);
     if (asideableContent.length) {
       wrappedInnerContent.push((
         <div className="blog-post__asideable-wrapper" key="asideable-content"
@@ -246,13 +246,9 @@ export default class BlogPost extends React.Component {
     wrappedInnerContent.push(<div key="blog-post__after-text">{this.props.afterText}</div>);
     content.push(<div className="blog-post__inner" key="inner-content">{wrappedInnerContent}</div>);
     const { commentCount, commentStatus } = this.props;
-    content.push(
-      <div className="blog-post__bottom-panel">
-        {shareBarDefault}
-      </div>
-    );
+    let commentSection = null;
     if (commentStatus !== 'disabled' && !(commentStatus === 'readonly' && commentCount === 0)) {
-      content.push(
+      commentSection = (
         <Comments
           key="blog-post__comments"
           firstToCommentLabel={this.props.firstToCommentLabel}
@@ -262,6 +258,12 @@ export default class BlogPost extends React.Component {
         />
       );
     }
+    content.push(
+      <div className="blog-post__bottom-panel">
+        {shareBarDefault}
+        {commentSection}
+      </div>
+    );
     const TitleComponent = this.props.TitleComponent;
     return (
       <article
@@ -274,7 +276,6 @@ export default class BlogPost extends React.Component {
       >
         <TitleComponent title={this.props.title} flyTitle={this.props.flyTitle} Heading={"h1"} />
         {content}
-
       </article>
     );
   }
